@@ -1,23 +1,21 @@
-const cell = document.getElementsByClassName('cell');
-const confirm1 = document.querySelector('.confirm1');
-const confirm2 = document.querySelector('.confirm2');
-let click1, click2 = false;
-confirm1.addEventListener('click', function handleClick(){
-    click1 = true;
-    
-});
-confirm2.addEventListener('click', function handleClick(){
-    click2 = true;
-   
+const game = document.getElementsByClassName('gameboard')[0];
+const play = document.querySelector('.play');
+play.addEventListener('click', ()=> {
+    const name1 = document.getElementsByClassName('player1-name')[0].value;
+    const name2 = document.getElementsByClassName('player2-name')[0].value;
+    gameFlow.initialize(name1,name2);
+    game.style.display = 'grid';
+    play.style.display = 'none';
 })
-cell.addEventListener('click',()=>{
-        gameFlow.turn(cell.id);
+game.addEventListener('click',(e)=>{
+        gameFlow.turn(e.target.id);
     })
+
 let gameBoard = (() => {
     const gameArray = [9];
-    const updateState = (player,index)=> {
+    const updateState = (symbol,index)=> {
         if(!gameArray[index]){
-            gameArray.splice(index,0,player.symbol);
+            gameArray.splice(index,0,symbol);
  
         }
     }
@@ -29,13 +27,11 @@ let gameBoard = (() => {
     };
     
 })();
-let gameFlow = (() => {
- 
+const gameFlow = (() => {
+
     let player1;
     let player2;
-    if(click1 & click2){
-        const name1 = document.getElementsByClassName('player1-name')[0].value;
-        const name2 = document.getElementsByClassName('player2-name')[0].value;
+    const initialize = (name1,name2) => {
         player1 = PlayerFactory(name1,'X');
         player2 = PlayerFactory(name2,'O');
     }
@@ -45,22 +41,24 @@ let gameFlow = (() => {
     const turn = (index) => {
         
         if(playerturn){
-            gameBoard.updateState(player1,index);
-            displayBoard(player1.symbol,index);
-            checkWinState(player1.symbol);
+            gameBoard.updateState(player1.symbol(),index);
+            displayBoard(player1.symbol(),index);
+            checkWinState(player1.symbol());
             playerturn = false;
         }
         else {
             gameBoard.updateState(player2,index)
-            displayBoard(player2.symbol,index);
-            checkWinState(player2.symbol);
+            displayBoard(player2.symbol(),index);
+            checkWinState(player2.symbol());
             playerturn = true;
         }
         
        
     }
     function displayBoard(symbol,index) {
-        cell[index].innerText = symbol;
+        const cell = document.getElementsByClassName('cell');
+        console.log(cell);
+        cell[index].innerHTML = symbol;
     
     };
     const checkWinState = (gameArray) => {
@@ -81,23 +79,26 @@ let gameFlow = (() => {
         [0,4,8],
         [2,4,6],
     ]
-    return player1,
+    return {
+           player1,
            player2,
            turn,
+           initialize,
            checkWinState
+
+    };
 })();
 
 
 
-const PlayerFactory = (name,symbol) => {
+const PlayerFactory = (playername,playersymbol) => {
     
-    let player = {
+    const name = () => playername;
+    const symbol = () => playersymbol;
+    
+    return {
         name,
         symbol
-        
-    }
-    return {
-        player
     
     };
 }

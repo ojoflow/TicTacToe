@@ -15,9 +15,9 @@ button {
   align-items: center;
   flex-direction: column;
 }
-.play {
+/* .play {
   display: none;
-}
+} */
 .player-dashboard{
     display: flex;
     justify-content: space-evenly;
@@ -29,8 +29,18 @@ button {
   flex-direction: column;
   align-items: center;
 }
-.confirm {
-  padding-left: 20px;
+.confirm-card1, .confirm-card2 {
+  display: none;
+  opacity: 85%;
+  border-radius: 5px;
+  transform: translate(-10%,-110%);
+  text-align: right;
+  font-weight: 900;
+  font-size: 20px;
+  height: 10vh;
+  width: 10vw;
+  background-color: grey;
+  padding: 20px 90px 30px 30px;
 }
 input {
   border: none;
@@ -44,7 +54,7 @@ input {
 }
 .gameboard {
     margin-top: 20px;
-    display: grid;
+    display: none;
     grid-template-columns: repeat(3,1fr);
     grid-template-rows: repeat(3,1fr);
     width: 40vw;
@@ -54,11 +64,10 @@ input {
 
 /* Add border bottom to all items */
 .cell {
-    padding: 10px;
+    padding: 20px 10px 10px 10px;
     border: 4px solid black;
-    /* with flexbox:
-    width: calc(50% - 21px);
-    */
+    font-size: 100px;
+    text-align: center;
   }
   
   /* Remove border bottom from last item & from second last if its odd */
