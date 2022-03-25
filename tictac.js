@@ -8,11 +8,14 @@ play.addEventListener('click', ()=> {
     play.style.display = 'none';
 })
 game.addEventListener('click',(e)=>{
-        gameFlow.turn(e.target.id);
+        if(!e.target.innerHTML){
+            gameFlow.turn(e.target.id);
+        }
     })
 
-let gameBoard = (() => {
+const gameBoard = (() => {
     const gameArray = [9];
+    const getGameArray = () => gameArray;
     const updateState = (symbol,index)=> {
         if(!gameArray[index]){
             gameArray.splice(index,0,symbol);
@@ -22,7 +25,7 @@ let gameBoard = (() => {
  
     return {
         updateState,
-        gameArray
+        getGameArray
         
     };
     
@@ -43,13 +46,13 @@ const gameFlow = (() => {
         if(playerturn){
             gameBoard.updateState(player1.symbol(),index);
             displayBoard(player1.symbol(),index);
-            checkWinState(player1.symbol());
+            checkWinState(gameBoard.getGameArray(),player1.symbol());
             playerturn = false;
         }
         else {
             gameBoard.updateState(player2,index)
             displayBoard(player2.symbol(),index);
-            checkWinState(player2.symbol());
+            checkWinState(gameBoard.getGameArray(),player2.symbol());
             playerturn = true;
         }
         
@@ -57,19 +60,11 @@ const gameFlow = (() => {
     }
     function displayBoard(symbol,index) {
         const cell = document.getElementsByClassName('cell');
-        console.log(cell);
         cell[index].innerHTML = symbol;
+       
     
     };
-    const checkWinState = (gameArray) => {
-               
-    // const checkWinState = (player.symbol) => {
-    //    //if three of the player symbols are in the conditions described in the array above, the player wins
-    //    //if there are no more empty spots on the array then the game ends in a tie
-    //     if(player.symbol)
-    // }
-    }
-    winningConditions = [
+    winConditions = [
         [0,1,2],
         [3,4,5],
         [6,7,8],
@@ -79,12 +74,43 @@ const gameFlow = (() => {
         [0,4,8],
         [2,4,6],
     ]
+    function checkWinState(gameArray,symbol) {
+
+        let condition = '';
+        let player;
+        if(symbol === 'X') {
+            player = player1;
+        }
+        else {
+            player = player2;
+        }
+        winConditions.find( (combination) => { //find the first combination
+        /*use the indices in a combination to check if the gameArray has three symbol winning condition*/ 
+                        condition = combination.every(index => gameArray[index] === symbol) || false;
+                                        // return condition
+                                     })
+                                    
+        if(condition === true){
+           endGame(player)
+        }else if(draw()){
+            endGame()
+        }else{
+            return
+        }
+   
+    }
+    function draw(){
+        return gameBoard.getGameArray().every(index => index === 'X' || index === 'O') 
+    }
+    function endGame() {
+        
+    }
+    
     return {
            player1,
            player2,
            turn,
-           initialize,
-           checkWinState
+           initialize
 
     };
 })();
