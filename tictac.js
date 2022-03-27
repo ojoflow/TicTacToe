@@ -14,12 +14,13 @@ game.addEventListener('click',(e)=>{
     })
 
 const gameBoard = (() => {
-    const gameArray = [9];
+    const gameArray = ['','','','','','','','',''];
     const getGameArray = () => gameArray;
     const updateState = (symbol,index)=> {
         if(!gameArray[index]){
-            gameArray.splice(index,0,symbol);
- 
+           
+            gameArray[index] = symbol;
+        
         }
     }
  
@@ -42,15 +43,15 @@ const gameFlow = (() => {
 
     let playerturn = true;
     const turn = (index) => {
-        
         if(playerturn){
             gameBoard.updateState(player1.symbol(),index);
             displayBoard(player1.symbol(),index);
             checkWinState(gameBoard.getGameArray(),player1.symbol());
+            
             playerturn = false;
         }
         else {
-            gameBoard.updateState(player2,index)
+            gameBoard.updateState(player2.symbol(),index)
             displayBoard(player2.symbol(),index);
             checkWinState(gameBoard.getGameArray(),player2.symbol());
             playerturn = true;
@@ -75,8 +76,7 @@ const gameFlow = (() => {
         [2,4,6],
     ]
     function checkWinState(gameArray,symbol) {
-
-        let condition = '';
+        let condition;
         let player;
         if(symbol === 'X') {
             player = player1;
@@ -84,16 +84,20 @@ const gameFlow = (() => {
         else {
             player = player2;
         }
-        winConditions.find( (combination) => { //find the first combination
+        
+        winConditions.find( (combination) => { //find a winning combination
+            
         /*use the indices in a combination to check if the gameArray has three symbol winning condition*/ 
                         condition = combination.every(index => gameArray[index] === symbol) || false;
-                                        // return condition
+                        return condition                                       
                                      })
+                                     
                                     
         if(condition === true){
-           endGame(player)
+            
+           endGame(symbol)
         }else if(draw()){
-            endGame()
+            endGame(symbol)
         }else{
             return
         }
@@ -102,8 +106,15 @@ const gameFlow = (() => {
     function draw(){
         return gameBoard.getGameArray().every(index => index === 'X' || index === 'O') 
     }
-    function endGame() {
-        
+    function endGame(symbol) {
+        if(!draw() && symbol === 'X'){
+            console.log(`${player1.name()} wins!`)
+            //restart game
+        }
+        else if(!draw() && symbol === 'O'){
+            console.log(`${player2.name()} wins!`)
+        }
+        else {console.log("tie")}
     }
     
     return {
