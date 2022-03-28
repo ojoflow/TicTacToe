@@ -1,3 +1,6 @@
+html {
+  background-color: black
+}
 button {
   border: none;
   border-radius: 20px;
@@ -8,17 +11,24 @@ button {
   padding: 10px 20px;
 }
 .tictactoe {
+  margin: 0;
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: black;
+  color: white;
+}
+h1 {
+  margin-bottom: 100px;
 }
 /* .play {
   display: none;
 } */
 .player-dashboard{
+  margin-top: -50px;
     display: flex;
     justify-content: space-evenly;
     width: 50%;
@@ -29,19 +39,7 @@ button {
   flex-direction: column;
   align-items: center;
 }
-.confirm-card1, .confirm-card2 {
-  display: none;
-  opacity: 85%;
-  border-radius: 5px;
-  transform: translate(-10%,-110%);
-  text-align: right;
-  font-weight: 900;
-  font-size: 20px;
-  height: 10vh;
-  width: 10vw;
-  background-color: grey;
-  padding: 20px 90px 30px 30px;
-}
+
 input {
   border: none;
   font-size: 20px;
@@ -59,13 +57,15 @@ input {
     grid-template-rows: repeat(3,1fr);
     width: 40vw;
     height: 70vh;
+    background-color: black;
+    color: white;
     /* background-color: gray; */
 }
 
 /* Add border bottom to all items */
 .cell {
     padding: 20px 10px 10px 10px;
-    border: 4px solid black;
+    border: 4px solid white;
     font-size: 100px;
     text-align: center;
   }
@@ -84,7 +84,12 @@ input {
             border-bottom: none;
         }
   
-  /* Add right border to every second item */
-  /* .cell:nth-child(odd) { 
-    border-right: 1px solid black;
-  } */
+.endgamescreen {
+  display: none;
+  width: 40vw;
+  height: 40vh;
+  text-align: center;
+  transform: translate(0%,-150%);
+  z-index: 1;
+  background-color: #837f7f;
+}
