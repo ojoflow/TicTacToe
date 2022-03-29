@@ -1,20 +1,23 @@
 const play = document.querySelector('.play');
 const restart = document.querySelector('.restart');
 const game = document.querySelector('.gameboard');
+const endGameScreen = document.querySelector('.endgamescreen');
 play.addEventListener('click', ()=> {
     let name1 = document.querySelector('.player1-name').value;
     let name2 = document.querySelector('.player2-name').value;
-    console.log(name1);
+
     gameFlow.initialize(name1,name2);
     game.style.display = 'grid';
     play.style.display = 'none';
 })
 restart.addEventListener('click', ()=> {
-    const endGameScreen = document.querySelector('.endgamescreen');
+  
     endGameScreen.style.display = 'none';
    
     const cells = document.querySelectorAll('.cell');
+    cells.forEach(cell => cell.style['pointer-events'] = 'auto');
     cells.forEach(cell => cell.innerHTML ='');
+
     game.style.display = 'none';
     play.style.display = 'block';
     document.getElementsByClassName('player1-name')[0].value = '';
@@ -23,6 +26,7 @@ restart.addEventListener('click', ()=> {
    
 })
 game.addEventListener('click',(e)=>{
+
         if(!e.target.innerHTML){
             gameFlow.turn(e.target.id);
         }
@@ -64,21 +68,23 @@ const gameFlow = (() => {
   
 
     const turn = (index) => {
-        if(playerturn){
-           
-            gameBoard.updateState(player1.symbol(),index);
-            displayBoard(player1.symbol(),index);
-            playerturn = false;
-            checkWinState(gameBoard.getGameArray(),player1.symbol());
+        
+            if(playerturn){
+                
+                gameBoard.updateState(player1.symbol(),index);
+                displayBoard(player1.symbol(),index);
+                playerturn = false;
+                checkWinState(gameBoard.getGameArray(),player1.symbol());
             
         }
-        else {
-            gameBoard.updateState(player2.symbol(),index)
-            displayBoard(player2.symbol(),index);
-            playerturn = true;
-            checkWinState(gameBoard.getGameArray(),player2.symbol());
+            else {
+                gameBoard.updateState(player2.symbol(),index)
+                displayBoard(player2.symbol(),index);
+                playerturn = true;
+                checkWinState(gameBoard.getGameArray(),player2.symbol());
         }
-        console.log(playerturn)
+    
+        // console.log(playerturn)
        
     }
     function displayBoard(symbol,index) {
@@ -119,6 +125,7 @@ const gameFlow = (() => {
             
             endGame(symbol)
             return playerturn = true
+          
         }else if(draw()){
             endGame(symbol)
             return playerturn = true
@@ -127,29 +134,33 @@ const gameFlow = (() => {
         }
    
     }
+    
     function draw(){
         return gameBoard.getGameArray().every(index => index === 'X' || index === 'O') 
     }
     function endGame(symbol) {
         const endGameScreen = document.querySelector('.endgamescreen');
+       
         console.log(playerturn)
         const endGameScreenText = document.querySelector('.endgamescreen h2')
+        const cells = document.querySelectorAll('.cell');
         if(!draw() && symbol === 'X'){
+            
             endGameScreenText.innerText = `${player1.name()} wins!`
             endGameScreen.style.display = 'block';
-            
+            cells.forEach(cell => cell.style['pointer-events'] ='none');
         }
         else if(!draw() && symbol === 'O'){
 
             endGameScreenText.innerText = `${player2.name()} wins!`
             endGameScreen.style.display = 'block';
-            
+            cells.forEach(cell => cell.style['pointer-events'] ='none');
             
         }
         else {
             endGameScreenText.innerText = `Tie!`
             endGameScreen.style.display = 'block';
-           
+            cells.forEach(cell => cell.style['pointer-events'] ='none');
         }
     }
     
@@ -157,7 +168,8 @@ const gameFlow = (() => {
            player1,
            player2,
            turn,
-           initialize
+           initialize,
+           endGame
 
     };
 })();

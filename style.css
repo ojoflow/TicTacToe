@@ -24,9 +24,7 @@ button {
 h1 {
   margin-bottom: 100px;
 }
-/* .play {
-  display: none;
-} */
+
 .player-dashboard{
   margin-top: -50px;
     display: flex;
@@ -34,7 +32,7 @@ h1 {
     width: 50%;
 }
 .player {
-  /* border: 4px solid black; */
+ 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,19 +53,20 @@ input {
     display: none;
     grid-template-columns: repeat(3,1fr);
     grid-template-rows: repeat(3,1fr);
-    width: 40vw;
-    height: 70vh;
+    width: min(50%,60vw);
+    height: 60vh;
     background-color: black;
     color: white;
-    /* background-color: gray; */
+    
 }
 
 /* Add border bottom to all items */
 .cell {
     padding: 20px 10px 10px 10px;
     border: 4px solid white;
-    font-size: 100px;
+    font-size: 80px;
     text-align: center;
+    pointer-events: default;
   }
   
   /* Remove border bottom from last item & from second last if its odd */
