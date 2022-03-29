@@ -31,7 +31,7 @@ game.addEventListener('click',(e)=>{
             gameFlow.turn(e.target.id);
         }
     })
-
+   
 const gameBoard = (() => {
     let gameArray = ['','','','','','','','',''];
     const getGameArray = () => gameArray;
